@@ -10,6 +10,7 @@
 //                      Modification des variables cloud teleinfo
 //                      (passage en 1 seul appel) et liberation de variables
 //           15/09/2015 Charles-Henri Hallard : Ajout compatibilité ESP8266
+//           26/07/09 Implémentation du programmateur autonome
 //
 // **********************************************************************************
 
@@ -90,7 +91,7 @@ void spark_expose_cloud(void)
   Serial.println("spark_expose_cloud()");
 
   #ifdef MOD_TELEINFO
-    // Déclaration des variables "cloud" pour la téléinfo (10 variables au maximum)
+    // Déclaration des variables "cloud" pour la téléinfo (20 variables au maximum)
     // je ne sais pas si les fonction cloud sont persistentes
     // c'est à dire en cas de deconnexion/reconnexion du wifi
     // si elles sont perdues ou pas, à tester
@@ -108,9 +109,13 @@ void spark_expose_cloud(void)
 
   #endif
 
-  // Déclaration des fonction "cloud" (4 fonctions au maximum)
+  // Déclaration des fonction "cloud" (15 fonctions au maximum)
   Particle.function("fp",    fp);
   Particle.function("setfp", setfp);
+  #ifdef MOD_PROGRAMME
+    //Particle.function("dumpEEPROM", dumpEEPROM); // pour debug
+    Particle.function("setProg", setProg);
+  #endif
 
   // Déclaration des variables "cloud"
   Particle.variable("nivdelest", &nivDelest, INT); // Niveau de délestage (nombre de zones délestées)
@@ -453,6 +458,10 @@ void setup()
 
   // Hors gel, désactivation des fils pilotes
   initFP();
+
+  #ifdef MOD_PROGRAMME
+    initProgrammeFP();
+  #endif
 
   // On etteint la LED embarqué du core
   LedRGBOFF();
