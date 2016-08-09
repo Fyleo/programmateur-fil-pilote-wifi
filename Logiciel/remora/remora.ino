@@ -10,7 +10,7 @@
 //                      Modification des variables cloud teleinfo
 //                      (passage en 1 seul appel) et liberation de variables
 //           15/09/2015 Charles-Henri Hallard : Ajout compatibilité ESP8266
-//           26/07/09 Implémentation du programmateur autonome
+//           26/07/2016 Implémentation du programmateur autonome
 //
 // **********************************************************************************
 
@@ -115,6 +115,8 @@ void spark_expose_cloud(void)
   #ifdef MOD_PROGRAMME
     //Particle.function("dumpEEPROM", dumpEEPROM); // pour debug
     Particle.function("setProg", setProg);
+    Particle.function("setProgMode", setProgMode);
+    Particle.function("setRelaiMode", setRelaiMode);
   #endif
 
   // Déclaration des variables "cloud"
@@ -485,7 +487,7 @@ void loop()
   bool currentcloudstate ;
 
   // Gérer notre compteur de secondes
-  if ( millis()-previousMillis > 1000) {
+  if ( currentMillis-previousMillis > 1000) {
     // Ceci arrive toute les secondes écoulées
     previousMillis = currentMillis;
     uptime++;

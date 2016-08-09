@@ -7,7 +7,7 @@
 // History : 15/01/2015 Charles-Henri Hallard (http://hallard.me)
 //                      Intégration de version 1.2 de la carte electronique
 //           15/09/2015 Charles-Henri Hallard : Ajout compatibilité ESP8266
-//           26/07/09 Implémentation du programmateur autonome
+//           26/07/2016 Implémentation du programmateur autonome
 //
 // **********************************************************************************
 #ifndef REMORA_h
